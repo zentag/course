@@ -15,9 +15,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       devShells.default = pkgs.mkShell {
-        buildInputs = [
-          pkgs.nodejs
-          pkgs.pnpm
+        buildInputs = with pkgs; [
+          nodejs
+          pnpm
+          slidev-cli
         ];
       };
     });
