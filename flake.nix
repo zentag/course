@@ -18,7 +18,6 @@
         buildInputs = with pkgs; [
           nodejs
           pnpm
-          slidev-cli
         ];
       };
     });
