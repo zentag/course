@@ -7,6 +7,9 @@
   - wpilib
   - frc game tools
   - tuner
+  - elastic
+  - pathplanner
+  - choreo
 
 ## session 1 - java & project fundamentals
 
