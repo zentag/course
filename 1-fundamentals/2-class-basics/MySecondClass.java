@@ -1,3 +1,6 @@
+// run this command in the terminal:
+// java 1-fundamentals/2-class-basics/MySecondClass.java
+
 public class MySecondClass {
         public static void main(String[] args) {
                 MySecondClass instanceOfClass = new MySecondClass();
