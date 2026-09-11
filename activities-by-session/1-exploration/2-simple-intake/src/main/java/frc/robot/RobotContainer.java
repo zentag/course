@@ -4,8 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Intake;
+
 public class RobotContainer {
-
-  public RobotContainer() {}
-
+        private final Intake intake;
+        public RobotContainer() {
+                intake = new Intake();
+        }
+        public Intake getIntake() {
+                return intake;
+        }
 }
