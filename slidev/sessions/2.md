@@ -1,0 +1,374 @@
+---
+layout: section
+---
+
+# variables
+
+basically, nametags for data!
+
+---
+
+# variables
+
+- giving the data a name and a value
+- can change the value
+- can access the value using the name of the variable
+
+
+---
+layout: center
+---
+
+<div class="flex justify-center gap-1 font-mono text-2xl">
+  <div class="flex flex-col items-center">
+    <span class="text-blue-400">int</span>
+    <div class="w-full border-t-2 border-blue-400 mt-2"></div>
+    <span class="text-sm mt-1 mx-4">type</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-yellow-300">myNumber</span>
+    <div class="w-full border-t-2 border-yellow-300 mt-2"></div>
+    <span class="text-sm mt-1">name</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-white">=</span>
+    <div class="w-full border-t-2 border-white mt-2"></div>
+    <span class="text-sm mt-1">operator</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-green-400">1;</span>
+    <div class="w-full border-t-2 border-green-400 mt-2"></div>
+    <span class="text-sm mt-1">value</span>
+  </div>
+</div>
+
+---
+layout: section
+---
+
+# methods
+basically, instructions!
+
+---
+layout: center
+---
+
+<div class="flex justify-center items-end gap-1 font-mono text-2xl">
+  <div class="flex flex-col items-center">
+    <span class="text-purple-400">public</span>
+    <div class="w-full border-t-2 border-purple-400 mt-2"></div>
+    <span class="text-sm mt-1">modifier</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-blue-400">int</span>
+    <div class="w-full border-t-2 border-blue-400 mt-2"></div>
+    <span class="text-sm mt-1">return type</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-yellow-300">add</span>
+    <div class="w-full border-t-2 border-yellow-300 mt-2"></div>
+    <span class="text-sm mt-1">method name</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-green-400">(int x, int y)</span>
+    <div class="w-full border-t-2 border-green-400 mt-2"></div>
+    <span class="text-sm mt-1">parameters</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-white">{</span>
+    <div class="w-full border-t-2 border-white mt-2"></div>
+    <span class="text-sm mt-1">body start</span>
+  </div>
+</div>
+
+---
+
+# calling a method
+
+- methods are stored in classes
+- can specify which class method comes from
+- runs the code inside of the method
+
+```java
+add(1, 2);
+```
+
+or, if you're working in another class, prepend the method's objects' name
+
+```java
+myFirstClass.add(1, 2);
+```
+
+actually, dots allow us to access variables from another object as well
+
+---
+
+# comments
+- think comments when you see a slash
+- comments do not affect code behavior
+- adding comments can make it easier for others to understand your code
+```java
+// this comments spans only one line
+callingSomeMethod(); // they can go after a line as well
+
+/* this comments 
+spans
+multiple
+lines */
+```
+---
+
+# other syntax 
+
+these are called braces, or curly brackets/braces: {}
+
+they enclose an area of code, and that area usually gets another layer of indentation
+
+
+the semicolon (;) must be placed at the end of each line, unless that line already ends in a brace
+
+<v-click>
+
+```java
+public class Example {
+    public Example() {
+        callingMethod();
+    }
+}
+```
+</v-click>
+---
+layout: two-cols
+---
+
+
+# classes
+
+- the blueprints
+- contain data (variables) and methods
+- may have default values for variables BUT
+- data does not change while program runs
+
+::right::
+
+# objects
+
+- constructed from classes
+- many objects can be created (instantiated) from a single class
+- have variables and methods
+- data can change while program runs
+
+--- 
+
+# calling a method
+
+- methods are stored in classes
+- can specify which class method comes from
+- runs the code inside of the method
+
+```java
+add(1, 2);
+```
+
+or
+
+```
+?????
+```
+
+--- 
+
+# calling a method<v-click>, continued</v-click>
+
+````md magic-move
+
+- methods are stored in classes
+- can specify which class method comes from
+- runs the code inside of the method
+
+```java
+add(1, 2);
+```
+````
+
+or<v-click>, if you're working in another class, prepend the method's objects' name</v-click>
+
+````md magic-move
+```
+?????
+```
+```java
+myFirstClass.add(1, 2);
+```
+````
+
+<v-click>actually, dots allow us to access variables from another object as well</v-click>
+
+<v-click>
+
+````md magic-move
+```java
+myFirstClass.myNumber // evaluates to 1
+```
+```java
+System.out.println(myFirstClass.myNumber); // prints 1
+```
+````
+</v-click>
+
+---
+layout: section
+---
+
+# class layout
+
+classes keep things organized
+
+--- 
+
+````md magic-move 
+```java
+public class MyFirstClass {
+
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    /* this a constructor!
+    it's a special method that shares the name of the class
+    it's *most important* property is:
+    it's called when an object of this class gets created
+    it does NOT need a return type;
+    it's return type is essentially the class itself */    
+    public MyFirstClass() {
+        
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        
+    }
+
+    public int add(int x, int y) {
+        return x + y;
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        // runs the instructions of the add() method
+        add(myNumber, 2);
+    }
+
+    public int add(int x, int y) {
+        return x + y;
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        // prints the return value of the add() method
+        System.out.println(add(myNumber, 2)); // 3
+    }
+
+    public int add(int x, int y) {
+        return x + y;
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        myNumber = add(myNumber,2);
+        System.out.println(myNumber); // 3
+    }
+
+    public int add(int x, int y) {
+        return x + y;
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        System.out.println(trueOrFalseValue); // true
+        trueOrFalseValue = false;
+        System.out.println(trueOrFalseValue); // false
+    }
+}
+```
+
+```java
+public class MyFirstClass {
+    public int myNumber = 1;
+    public boolean trueOrFalseValue = true;
+    public MyFirstClass() {
+        boolean newTrueOrFalseValue = false;
+        System.out.println(newTrueOrFalseValue); // false
+    }
+}
+```
+````
+---
+layout: section
+---
+
+# your turn!
+complete assignment 1.1, using the next slide as reference
+
+---
+
+```java
+public class SomeClass {
+    // variable
+    public OtherClass myObject = new OtherClass();
+    // constructor
+    public SomeClass() {
+        printNumber(myObject.myNumber);
+    }
+    // method
+    public void printNumber(int inputNumber) {
+        System.out.println(inputNumber);
+    }
+}
+```
+
