@@ -1,4 +1,4 @@
-# Installing frc software
+# installing frc software
 
 ping me on discord for help
 
