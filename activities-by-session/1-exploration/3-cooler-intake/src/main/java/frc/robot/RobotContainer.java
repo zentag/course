@@ -8,8 +8,10 @@ import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
         private final Intake intake;
+        private final CommandXboxController controller = new CommandXboxController(port:1);
         public RobotContainer() {
-                intake = new Intake();
+                intake = newIntake();
+                controller.x().whileTrue(Commands.startEnd(intake::intake, intake::stop, intake));
         }
         public Intake getIntake() {
                 return intake;
