@@ -18,6 +18,7 @@
         buildInputs = with pkgs; [
           nodejs
           pnpm
+          temurin-bin-17
         ];
       };
     });
