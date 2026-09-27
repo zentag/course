@@ -1,0 +1,9 @@
+{
+	"java.project.sourcePaths": ["."],
+	"java.project.outputPath": "bin",
+	"java.project.referencedLibraries": [],
+	"java.import.gradle.enabled": false,
+	"java.import.gradle.java.home": "",
+	"java.server.launchMode": "Standard",
+	"java.debug.settings.console": "integratedTerminal"
+}

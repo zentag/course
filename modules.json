@@ -1,0 +1,93 @@
+{
+	"schemaVersion": 1,
+	"modules": [
+		{
+			"id": "git-workflow",
+			"title": "Git Basics",
+			"description": "Learn how to commit a change",
+			"subdir": "activities/by-session/1-exploration/1-git-workflow",
+			"kind": "plain-java",
+			"order": 11
+		},
+		{
+			"id": "simple-intake",
+			"title": "Simple Intake",
+			"description": "Build a super basic subsystem",
+			"subdir": "activities/by-session/1-exploration/2-simple-intake",
+			"kind": "robot",
+			"order": 12
+		},
+		{
+			"id": "cooler-intake",
+			"title": "Cooler Intake",
+			"description": "Add complexity and bind subsystem actions to buttons",
+			"subdir": "activities/by-session/1-exploration/3-cooler-intake",
+			"kind": "robot",
+			"order": 13
+		},
+		{
+			"id": "exploration-assignment",
+			"title": "Assignment: Installing FRC Software",
+			"description": "Install the FRC software",
+			"subdir": "activities/by-session/1-exploration/assignment",
+			"kind": "plain-java",
+			"order": 19
+		},
+		{
+			"id": "enums",
+			"title": "Enums",
+			"description": "Learn how enums and switch statements work",
+			"subdir": "activities/by-session/2-cad-to-code/1-enums",
+			"kind": "plain-java",
+			"order": 21
+		},
+		{
+			"id": "cad-to-code-assignment",
+			"title": "Assignment: Subsystems and States",
+			"description": "Divide a robot into subsystems and brainstorm their states",
+			"subdir": "activities/by-session/2-cad-to-code/assignment",
+			"kind": "plain-java",
+			"order": 29
+		},
+		{
+			"id": "advkit",
+			"title": "AdvantageKit",
+			"description": "AdvantageKit robot project",
+			"subdir": "activities/misc/advkit",
+			"kind": "robot",
+			"order": 991
+		},
+		{
+			"id": "advkit-drive",
+			"title": "AdvantageKit Drive",
+			"description": "AdvantageKit swerve drive project",
+			"subdir": "activities/misc/advkit-drive",
+			"kind": "robot",
+			"order": 992
+		},
+		{
+			"id": "correcting-a-class",
+			"title": "Correcting a Class",
+			"description": "Fix a broken Java class",
+			"subdir": "activities/misc/correcting-a-class",
+			"kind": "plain-java",
+			"order": 993
+		},
+		{
+			"id": "interfaces",
+			"title": "Interfaces",
+			"description": "Use an interface to swap between implementations",
+			"subdir": "activities/misc/interfaces",
+			"kind": "plain-java",
+			"order": 994
+		},
+		{
+			"id": "template",
+			"title": "Robot Template",
+			"description": "Blank WPILib command-based robot project",
+			"subdir": "activities/misc/template",
+			"kind": "robot",
+			"order": 995
+		}
+	]
+}
