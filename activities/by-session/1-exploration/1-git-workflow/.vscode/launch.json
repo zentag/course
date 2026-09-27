@@ -1,0 +1,13 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Run MyFirstClass",
+			"request": "launch",
+			"mainClass": "MyFirstClass",
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal"
+		}
+	]
+}

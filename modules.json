@@ -5,9 +5,9 @@
 			"id": "git-workflow",
 			"title": "Git Basics",
 			"description": "Learn how to commit a change",
-			"subdir": "activities/by-session/1-git-workflow",
+			"subdir": "activities/by-session/1-exploration/1-git-workflow",
 			"kind": "plain-java",
-			"order": 01
-		},
+			"order": 10
+		}
 	]
 }
