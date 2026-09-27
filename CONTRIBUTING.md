@@ -4,9 +4,12 @@ every folder under `activities/by-session/<session>/` and `activities/misc/` is 
 
 | folder | repo |
 |---|---|
-| `activities/by-session/1-exploration/1-git-workflow` | `zentag/course-1-exploration-1-git-workflow` |
-| `activities/by-session/2-cad-to-code/1-enums` | `zentag/course-2-cad-to-code-1-enums` |
-| `activities/misc/interfaces` | `zentag/course-misc-interfaces` |
+| `activities/by-session/1-exploration/1-git-workflow` | `zentag/course-git-workflow` |
+| `activities/by-session/2-cad-to-code/1-enums` | `zentag/course-enums` |
+| `activities/misc/interfaces` | `zentag/course-interfaces` |
+| `activities/by-session/1-exploration/assignment` | `zentag/course-exploration-assignment` |
+
+the repo name is the folder name, with the number dropped for `by-session/` folders. if two activities would end up with the same name (like the two `assignment` folders), both keep their session name.
 
 each activity repo has two branches:
 

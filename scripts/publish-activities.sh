@@ -48,13 +48,34 @@ matches_filter() {
 	return 1
 }
 
+# repo name is the folder name, minus its number under by-session/ (1-enums -> enums).
+# if two activities would get the same name, both keep their session (exploration-assignment).
+strip_number() {
+	local n=${1##*/}
+	[[ "$1" == activities/by-session/* ]] && n=${n#[0-9]*-}
+	echo "$n"
+}
+
+declare -A seen
+for subdir in $activities; do
+	n=$(strip_number "$subdir")
+	seen[$n]=$(( ${seen[$n]:-0} + 1 ))
+done
+
+repo_name() {
+	local subdir=$1 n session
+	n=$(strip_number "$subdir")
+	if [ "${seen[$n]}" -gt 1 ]; then
+		session=$(strip_number "$(dirname "$subdir")")
+		n=$session-$n
+	fi
+	echo "$n"
+}
+
 for subdir in $activities; do
 	matches_filter "$subdir" || continue
 
-	name=${subdir#activities/}
-	name=${name#by-session/}
-	name=${name//\//-}
-	repo=$OWNER/course-$name
+	repo=$OWNER/course-$(repo_name "$subdir")
 
 	if ! gh repo view "$repo" >/dev/null 2>&1; then
 		gh repo create "$repo" --public --description "Activity from $OWNER/course ($subdir)" >/dev/null
