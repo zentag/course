@@ -18,12 +18,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.base.RollerIO;
+import frc.robot.subsystems.base.RollerIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.fuel.Fuel;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -35,6 +38,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Fuel fuel;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -57,6 +61,12 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
 
+        fuel =
+            new Fuel(
+                new RollerIOTalonFX(16),
+                new RollerIOTalonFX(15),
+                new RollerIOTalonFX(14),
+                new RollerIOTalonFX(17));
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
         // implementations
@@ -85,6 +95,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.FrontRight),
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
+        fuel = new Fuel(new RollerIO() {}, new RollerIO() {}, new RollerIO() {}, new RollerIO() {});
         break;
 
       default:
@@ -96,6 +107,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+        fuel = new Fuel(new RollerIO() {}, new RollerIO() {}, new RollerIO() {}, new RollerIO() {});
         break;
     }
 
@@ -147,8 +159,16 @@ public class RobotContainer {
                 () -> -controller.getLeftX(),
                 () -> Rotation2d.kZero));
 
-    // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    // NEW
+
+    // intake when X is held
+    controller.x().whileTrue(fuel.requestState(Fuel.WantedState.INTAKE));
+
+    // outtake when B is held
+    controller.b().whileTrue(fuel.requestState(Fuel.WantedState.OUTTAKE));
+
+    // shoot when Y is held
+    controller.y().whileTrue(fuel.requestState(Fuel.WantedState.SHOOT));
 
     // Reset gyro to 0° when B button is pressed
     controller
