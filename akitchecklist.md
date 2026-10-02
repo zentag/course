@@ -16,6 +16,6 @@
 ## required method to be implemented on each [name]IO[implementation].java
 ```
 public void updateInputs([name]IOInputs inputs){
-inputs.exampleInput = exampleValue;
+    inputs.exampleInput = exampleValue;
 }
 ```
