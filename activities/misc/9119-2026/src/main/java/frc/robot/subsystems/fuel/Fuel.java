@@ -124,5 +124,11 @@ public class Fuel extends SubsystemBase {
     feederIO.updateInputs(feederInputs);
     shooterIO.updateInputs(shooterInputs);
     shooterFollowerIO.updateInputs(shooterFollowerInputs);
+    boolean shooterVelocityAcceptable =
+        Math.abs(shooterInputs.motorVelocityRPS - shooterTarget) < 10;
+    // check if we are spun up. don't want to change this while we are shooting because a ball could
+    // get stuck or misfired
+    if (shooterVelocityAcceptable || systemState == SystemState.SHOOTING) isSpunUp = true;
+    else isSpunUp = false;
   }
 }
