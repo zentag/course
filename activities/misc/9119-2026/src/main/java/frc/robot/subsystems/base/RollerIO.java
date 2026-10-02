@@ -35,7 +35,7 @@ public interface RollerIO {
 
   default void setOpenLoopDutyCycle(double dutyCycle) {}
 
-  default void follow(double leaderID, MotorAlignmentValue motorAlignment) {}
+  default void follow(int leaderID, MotorAlignmentValue motorAlignment) {}
 
   default void setConfigs(TalonFXConfiguration configs) {}
 

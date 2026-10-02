@@ -59,6 +59,7 @@ public class RollerIOTalonFX implements RollerIO {
     talon.optimizeBusUtilization();
   }
 
+  @Override
   public void updateInputs(RollerIOInputs inputs) {
     signals.refreshAll();
 
@@ -79,22 +80,28 @@ public class RollerIOTalonFX implements RollerIO {
     inputs.connected = signals.isAllGood();
   }
 
+  @Override
   public int getCanID() {
     return talon.getDeviceID();
   }
 
-  public void setConfigs(TalonFXConfiguration configs) {
-    talon.getConfigurator().apply(configs);
+  @Override
+  public void setConfigs(TalonFXConfiguration config) {
+    talon.getConfigurator().apply(config);
+    this.config = config;
   }
 
+  @Override
   public void setOpenLoopDutyCycle(double dutyCycle) {
     talon.setControl(dutyCycleRequest.withOutput(dutyCycle));
   }
 
+  @Override
   public void follow(int leaderID, MotorAlignmentValue motorAlignment) {
     talon.setControl(new Follower(leaderID, motorAlignment));
   }
 
+  @Override
   public void setMotionMagicVelocity(double mechanismVelocity) {
     talon.setControl(motionMagicVeloRequest.withVelocity(mechanismVelocity));
   }

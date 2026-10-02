@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.base.RollerIO;
 import frc.robot.subsystems.base.RollerIOInputsAutoLogged;
+import org.littletonrobotics.junction.Logger;
 
 public class Fuel extends SubsystemBase {
   private RollerIO intakeIO, feederIO, shooterIO, shooterFollowerIO;
@@ -77,15 +78,15 @@ public class Fuel extends SubsystemBase {
           }
           case INTAKE -> SystemState.INTAKING;
           case IDLE -> SystemState.IDLING;
-          case OUTTAKE -> SystemState.IDLING;
+          case OUTTAKE -> SystemState.OUTTAKING;
         };
   }
 
   private void applyState() {
     switch (systemState) {
       case SHOOTING:
-        intakeIO.setOpenLoopDutyCycle(0);
-        feederIO.setOpenLoopDutyCycle(.4);
+        intakeIO.setOpenLoopDutyCycle(-.3);
+        feederIO.setOpenLoopDutyCycle(-.4);
         shooterIO.setMotionMagicVelocity(shooterTarget);
         break;
       case SPINNING_UP:
@@ -94,7 +95,7 @@ public class Fuel extends SubsystemBase {
         shooterIO.setMotionMagicVelocity(shooterTarget);
         break;
       case INTAKING:
-        intakeIO.setOpenLoopDutyCycle(0);
+        intakeIO.setOpenLoopDutyCycle(-.7);
         feederIO.setOpenLoopDutyCycle(.4);
         shooterIO.setOpenLoopDutyCycle(0);
         break;
@@ -104,7 +105,7 @@ public class Fuel extends SubsystemBase {
         shooterIO.setOpenLoopDutyCycle(0);
         break;
       case OUTTAKING:
-        intakeIO.setOpenLoopDutyCycle(0);
+        intakeIO.setOpenLoopDutyCycle(.4);
         feederIO.setOpenLoopDutyCycle(-.4);
         shooterIO.setOpenLoopDutyCycle(0);
         break;
@@ -117,18 +118,23 @@ public class Fuel extends SubsystemBase {
 
   @Override
   public void periodic() {
-    handleStateTransitions();
-    applyState();
 
     intakeIO.updateInputs(intakeInputs);
     feederIO.updateInputs(feederInputs);
     shooterIO.updateInputs(shooterInputs);
     shooterFollowerIO.updateInputs(shooterFollowerInputs);
+
+    Logger.processInputs("Intake", intakeInputs);
+    Logger.processInputs("Feeder", feederInputs);
+    Logger.processInputs("Shooter", shooterInputs);
+    Logger.processInputs("ShooterFollower", shooterFollowerInputs);
     boolean shooterVelocityAcceptable =
-        Math.abs(shooterInputs.motorVelocityRPS - shooterTarget) < 10;
+        Math.abs(shooterInputs.mechanismVelocityPerSecondInMechanismUnits - shooterTarget) < 10;
     // check if we are spun up. don't want to change this while we are shooting because a ball could
     // get stuck or misfired
     if (shooterVelocityAcceptable || systemState == SystemState.SHOOTING) isSpunUp = true;
     else isSpunUp = false;
+    handleStateTransitions();
+    applyState();
   }
 }

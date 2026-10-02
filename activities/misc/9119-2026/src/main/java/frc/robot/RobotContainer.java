@@ -149,16 +149,6 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero));
-
     // NEW
 
     // intake when X is held
@@ -170,9 +160,9 @@ public class RobotContainer {
     // shoot when Y is held
     controller.y().whileTrue(fuel.requestState(Fuel.WantedState.SHOOT));
 
-    // Reset gyro to 0° when B button is pressed
+    // Reset gyro to 0° when A button is pressed
     controller
-        .b()
+        .a()
         .onTrue(
             Commands.runOnce(
                     () ->
