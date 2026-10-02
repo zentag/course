@@ -30,10 +30,11 @@ public class Fuel extends SubsystemBase {
 
     var configs = new TalonFXConfiguration();
     var slot0 = configs.Slot0;
-    slot0.kS = 0.25; // Add 0.25 V output to overcome static friction
+    // from original codebase (sysId)
+    slot0.kS = 0.15; // Add 0.25 V output to overcome static friction
     slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
     slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-    slot0.kP = 0.11; // An error of 1 rps results in 0.11 V output
+    slot0.kP = 0.18; // An error of 1 rps results in 0.11 V output
     slot0.kI = 0; // no output for integrated error
     slot0.kD = 0; // no output for error derivative
 
