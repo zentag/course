@@ -73,7 +73,7 @@ public class Fuel extends SubsystemBase {
     systemState =
         switch (wantedState) {
           case SHOOT -> {
-            if (isSpunUp) yield SystemState.SHOOTING;
+            if (isSpunUp()) yield SystemState.SHOOTING;
             else yield SystemState.SPINNING_UP;
           }
           case INTAKE -> SystemState.INTAKING;
@@ -132,13 +132,17 @@ public class Fuel extends SubsystemBase {
     Logger.recordOutput("Fuel/WantedState", wantedState);
     Logger.recordOutput("Fuel/SystemState", systemState);
 
+    handleStateTransitions();
+    applyState();
+  }
+
+  public boolean isSpunUp() {
+
     boolean shooterVelocityAcceptable =
         Math.abs(shooterInputs.mechanismVelocityPerSecondInMechanismUnits - shooterTarget) < 10;
     // check if we are spun up. don't want to change this while we are shooting because a ball could
     // get stuck or misfired
-    if (shooterVelocityAcceptable || systemState == SystemState.SHOOTING) isSpunUp = true;
-    else isSpunUp = false;
-    handleStateTransitions();
-    applyState();
+    if (shooterVelocityAcceptable || systemState == SystemState.SHOOTING) return true;
+    else return false;
   }
 }
