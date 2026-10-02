@@ -128,6 +128,10 @@ public class Fuel extends SubsystemBase {
     Logger.processInputs("Feeder", feederInputs);
     Logger.processInputs("Shooter", shooterInputs);
     Logger.processInputs("ShooterFollower", shooterFollowerInputs);
+
+    Logger.recordOutput("Fuel/WantedState", wantedState);
+    Logger.recordOutput("Fuel/SystemState", systemState);
+
     boolean shooterVelocityAcceptable =
         Math.abs(shooterInputs.mechanismVelocityPerSecondInMechanismUnits - shooterTarget) < 10;
     // check if we are spun up. don't want to change this while we are shooting because a ball could
