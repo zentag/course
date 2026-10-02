@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.subsystems.base.RollerIOSim.RollerSimConstants;
 
 /**
  * This class defines the runtime mode used by AdvantageKit. The mode is always "real" when running
@@ -27,5 +28,16 @@ public final class Constants {
 
     /** Replaying from a log file. */
     REPLAY
+  }
+
+  public static final class FuelConstants {
+    // momentOfInertia (kg*m^2), rotorToSensorRatio, sensorToMechanismRatio, positionStdDev,
+    // velocityStdDev
+    public static final RollerSimConstants intakeSimConstants =
+        new RollerSimConstants(0.001, 1.0, 3.0, 0.0, 0.0);
+    public static final RollerSimConstants feederSimConstants =
+        new RollerSimConstants(0.0005, 1.0, 4.0, 0.0, 0.0);
+    public static final RollerSimConstants shooterSimConstants =
+        new RollerSimConstants(0.004, 1.0, 1.0, 0.0, 0.0);
   }
 }
