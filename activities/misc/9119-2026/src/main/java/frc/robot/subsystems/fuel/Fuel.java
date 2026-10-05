@@ -1,0 +1,161 @@
+package frc.robot.subsystems.fuel;
+
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.base.RollerIO;
+import frc.robot.subsystems.base.RollerIOInputsAutoLogged;
+import org.littletonrobotics.junction.Logger;
+
+public class Fuel extends SubsystemBase {
+  // declare fields: the Fuel subsystem is going to own all of these variables
+  private RollerIO intakeIO, feederIO, shooterIO, shooterFollowerIO;
+  private RollerIOInputsAutoLogged intakeInputs, feederInputs, shooterInputs, shooterFollowerInputs;
+
+  public boolean isSpunUp = false;
+  public double shooterTarget = 60;
+
+  public Fuel(
+      RollerIO intakeIO, RollerIO feederIO, RollerIO shooterIO, RollerIO shooterFollowerIO) {
+    // sets the fields (see line 13) equal to what was passed in through the constructor (see the
+    // line right above this and see RobotContainer.java)
+    // TODO: what goes here? two lines are missing
+    this.shooterIO = shooterIO;
+    this.shooterFollowerIO = shooterFollowerIO;
+
+    // setting fields, but getting the values from a class that advantagekit auto-generates
+    this.intakeInputs = new RollerIOInputsAutoLogged();
+    this.feederInputs = new RollerIOInputsAutoLogged();
+    // TODO: what goes here? two lines are missing
+
+    // configure (give settings to) the shooter motor
+    var configs = new TalonFXConfiguration();
+    var slot0 = configs.Slot0;
+    // from original codebase (sysId)
+    slot0.kS = 0.15; // Add 0.25 V output to overcome static friction
+    slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+    slot0.kP = 0.18; // An error of 1 rps results in 0.11 V output
+    slot0.kI = 0; // no output for integrated error
+    slot0.kD = 0; // no output for error derivative
+
+    // set Motion Magic Velocity settings
+    var motionMagicConfigs = configs.MotionMagic;
+    motionMagicConfigs.MotionMagicAcceleration =
+        400; // Target acceleration of 400 rps/s (0.25 seconds to max)
+    motionMagicConfigs.MotionMagicJerk = 4000; // Target jerk of 4000 rps/s/s (0.1 seconds)
+
+    shooterIO.setConfigs(configs);
+
+    // https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/package-summary.html
+    shooterFollowerIO.follow(shooterIO.getCanID(), MotorAlignmentValue.Aligned);
+    // if we aren't given a requested state, it should be set to IDLE
+    setDefaultCommand(requestState(WantedState.IDLE));
+  }
+
+  // define all possible values for wanted and system states
+  public enum WantedState {
+    SHOOT,
+    INTAKE,
+    IDLE,
+    OUTTAKE
+  }
+
+  private enum SystemState {
+    SHOOTING,
+    SPINNING_UP,
+    // TODO: what goes here? hint: only one is missing
+    IDLING,
+    OUTTAKING
+  }
+
+  // define wanted and system state variables, which start with the values IDLE and IDLING
+  private WantedState wantedState = WantedState.IDLE;
+  private SystemState systemState = SystemState.IDLING;
+
+  // what should the system state be? determined by the wanted state
+  private void handleStateTransitions() {
+    systemState =
+        switch (wantedState) {
+          case SHOOT -> {
+            if (isSpunUp()) yield SystemState.SHOOTING;
+            else yield SystemState.SPINNING_UP;
+          }
+          // TODO: what goes here?
+          case IDLE -> SystemState.IDLING;
+          case OUTTAKE -> SystemState.OUTTAKING;
+        };
+  }
+
+  // what to do with the current system state
+  private void applyState() {
+    switch (systemState) {
+      case SHOOTING:
+        // a duty cycle is a number ranging from -1 to 1 representing power applied to the motor. -1
+        // is all the way in the negative direction, 1 is all the way in the position direction, and
+        // 0 is stopped
+        intakeIO.setOpenLoopDutyCycle(-.3);
+        feederIO.setOpenLoopDutyCycle(-.4);
+        shooterIO.setMotionMagicVelocity(shooterTarget);
+        break;
+      case SPINNING_UP:
+        intakeIO.setOpenLoopDutyCycle(0);
+        feederIO.setOpenLoopDutyCycle(0);
+        shooterIO.setMotionMagicVelocity(shooterTarget);
+        break;
+      case INTAKING:
+        intakeIO.setOpenLoopDutyCycle(-.7);
+        feederIO.setOpenLoopDutyCycle(.4);
+        shooterIO.setOpenLoopDutyCycle(0);
+        break;
+      case IDLING:
+        // TODO: what goes here?
+        break;
+      case OUTTAKING:
+        intakeIO.setOpenLoopDutyCycle(.4);
+        feederIO.setOpenLoopDutyCycle(-.4);
+        shooterIO.setOpenLoopDutyCycle(0);
+        break;
+    }
+  }
+
+  // allows for code in RobotContainer to set our desired state based on button presses
+  public Command requestState(WantedState requestedState) {
+    return this.run(() -> wantedState = requestedState);
+  }
+
+  // runs every 0.02 seconds
+  @Override
+  public void periodic() {
+    // update all the information for all 4 motors
+    intakeIO.updateInputs(intakeInputs);
+    // TODO: what goes here?
+    shooterFollowerIO.updateInputs(shooterFollowerInputs);
+
+    // record all the information from all 4 input classes
+    Logger.processInputs("Intake", intakeInputs);
+    // TODO: what goes here?
+
+    // record what our wanted and system states were each loop
+    Logger.recordOutput("Fuel/WantedState", wantedState);
+    Logger.recordOutput("Fuel/SystemState", systemState);
+
+    // run the methods defined above to set our system state and to act on it
+    handleStateTransitions();
+    applyState();
+  }
+
+  // method that returns a boolean
+  // true means we should be in SHOOTING state
+  // false means we should be in SPINNING_UP state
+  public boolean isSpunUp() {
+
+    boolean shooterVelocityAcceptable =
+        Math.abs(shooterInputs.mechanismVelocityPerSecondInMechanismUnits - shooterTarget) < 10;
+    // check if we are spun up. don't want to change this while we are shooting because a ball could
+    // get stuck or misfired
+    if (shooterVelocityAcceptable || systemState == SystemState.SHOOTING) return true;
+    else return false;
+  }
+}
