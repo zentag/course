@@ -9,6 +9,7 @@ import frc.robot.subsystems.base.RollerIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class Fuel extends SubsystemBase {
+  // declare fields: the Fuel subsystem is going to own all of these variables
   private RollerIO intakeIO, feederIO, shooterIO, shooterFollowerIO;
   private RollerIOInputsAutoLogged intakeInputs, feederInputs, shooterInputs, shooterFollowerInputs;
 
@@ -17,17 +18,19 @@ public class Fuel extends SubsystemBase {
 
   public Fuel(
       RollerIO intakeIO, RollerIO feederIO, RollerIO shooterIO, RollerIO shooterFollowerIO) {
-
+    // sets the fields (see line 13) equal to what was passed in through the constructor (see the
+    // line right above this and see RobotContainer.java)
     this.intakeIO = intakeIO;
     this.feederIO = feederIO;
     this.shooterIO = shooterIO;
     this.shooterFollowerIO = shooterFollowerIO;
 
+    // setting fields, but getting the values from a class that advantagekit auto-generates
     this.intakeInputs = new RollerIOInputsAutoLogged();
     this.feederInputs = new RollerIOInputsAutoLogged();
     this.shooterInputs = new RollerIOInputsAutoLogged();
     this.shooterFollowerInputs = new RollerIOInputsAutoLogged();
-
+    // configure (give settings to) the shooter motor
     var configs = new TalonFXConfiguration();
     var slot0 = configs.Slot0;
     // from original codebase (sysId)
@@ -48,10 +51,11 @@ public class Fuel extends SubsystemBase {
 
     // https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/controls/package-summary.html
     shooterFollowerIO.follow(shooterIO.getCanID(), MotorAlignmentValue.Aligned);
-
+    // if we aren't given a requested state, it should be set to IDLE
     setDefaultCommand(requestState(WantedState.IDLE));
   }
 
+  // define all possible values for wanted and system states
   public enum WantedState {
     SHOOT,
     INTAKE,
@@ -67,6 +71,7 @@ public class Fuel extends SubsystemBase {
     OUTTAKING
   }
 
+  // define wanted and system state variables, which start with the values IDLE and IDLING
   private WantedState wantedState = WantedState.IDLE;
   private SystemState systemState = SystemState.IDLING;
 
