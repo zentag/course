@@ -20,16 +20,15 @@ public class Fuel extends SubsystemBase {
       RollerIO intakeIO, RollerIO feederIO, RollerIO shooterIO, RollerIO shooterFollowerIO) {
     // sets the fields (see line 13) equal to what was passed in through the constructor (see the
     // line right above this and see RobotContainer.java)
-    this.intakeIO = intakeIO;
-    this.feederIO = feederIO;
+    // TODO: what goes here? two lines are missing
     this.shooterIO = shooterIO;
     this.shooterFollowerIO = shooterFollowerIO;
 
     // setting fields, but getting the values from a class that advantagekit auto-generates
     this.intakeInputs = new RollerIOInputsAutoLogged();
     this.feederInputs = new RollerIOInputsAutoLogged();
-    this.shooterInputs = new RollerIOInputsAutoLogged();
-    this.shooterFollowerInputs = new RollerIOInputsAutoLogged();
+    // TODO: what goes here? two lines are missing
+
     // configure (give settings to) the shooter motor
     var configs = new TalonFXConfiguration();
     var slot0 = configs.Slot0;
@@ -66,7 +65,7 @@ public class Fuel extends SubsystemBase {
   private enum SystemState {
     SHOOTING,
     SPINNING_UP,
-    INTAKING,
+    // TODO: what goes here? hint: only one is missing
     IDLING,
     OUTTAKING
   }
@@ -83,7 +82,7 @@ public class Fuel extends SubsystemBase {
             if (isSpunUp()) yield SystemState.SHOOTING;
             else yield SystemState.SPINNING_UP;
           }
-          case INTAKE -> SystemState.INTAKING;
+          // TODO: what goes here?
           case IDLE -> SystemState.IDLING;
           case OUTTAKE -> SystemState.OUTTAKING;
         };
@@ -111,9 +110,7 @@ public class Fuel extends SubsystemBase {
         shooterIO.setOpenLoopDutyCycle(0);
         break;
       case IDLING:
-        intakeIO.setOpenLoopDutyCycle(0);
-        feederIO.setOpenLoopDutyCycle(0);
-        shooterIO.setOpenLoopDutyCycle(0);
+        // TODO: what goes here?
         break;
       case OUTTAKING:
         intakeIO.setOpenLoopDutyCycle(.4);
@@ -131,20 +128,20 @@ public class Fuel extends SubsystemBase {
   // runs every 0.02 seconds
   @Override
   public void periodic() {
-
+    // update all the information for all 4 motors
     intakeIO.updateInputs(intakeInputs);
-    feederIO.updateInputs(feederInputs);
-    shooterIO.updateInputs(shooterInputs);
+    // TODO: what goes here?
     shooterFollowerIO.updateInputs(shooterFollowerInputs);
 
+    // record all the information from all 4 input classes
     Logger.processInputs("Intake", intakeInputs);
-    Logger.processInputs("Feeder", feederInputs);
-    Logger.processInputs("Shooter", shooterInputs);
-    Logger.processInputs("ShooterFollower", shooterFollowerInputs);
+    // TODO: what goes here?
 
+    // record what our wanted and system states were each loop
     Logger.recordOutput("Fuel/WantedState", wantedState);
     Logger.recordOutput("Fuel/SystemState", systemState);
 
+    // run the methods defined above to set our system state and to act on it
     handleStateTransitions();
     applyState();
   }
