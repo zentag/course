@@ -93,6 +93,9 @@ public class Fuel extends SubsystemBase {
   private void applyState() {
     switch (systemState) {
       case SHOOTING:
+        // a duty cycle is a number ranging from -1 to 1 representing power applied to the motor. -1
+        // is all the way in the negative direction, 1 is all the way in the position direction, and
+        // 0 is stopped
         intakeIO.setOpenLoopDutyCycle(-.3);
         feederIO.setOpenLoopDutyCycle(-.4);
         shooterIO.setMotionMagicVelocity(shooterTarget);
