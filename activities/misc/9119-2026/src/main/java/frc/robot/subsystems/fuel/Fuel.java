@@ -70,6 +70,7 @@ public class Fuel extends SubsystemBase {
   private WantedState wantedState = WantedState.IDLE;
   private SystemState systemState = SystemState.IDLING;
 
+  // what should the system state be? determined by the wanted state
   private void handleStateTransitions() {
     systemState =
         switch (wantedState) {
@@ -83,6 +84,7 @@ public class Fuel extends SubsystemBase {
         };
   }
 
+  // what to do with the current system state
   private void applyState() {
     switch (systemState) {
       case SHOOTING:
@@ -113,10 +115,12 @@ public class Fuel extends SubsystemBase {
     }
   }
 
+  // allows for code in RobotContainer to set our desired state based on button presses
   public Command requestState(WantedState requestedState) {
     return this.run(() -> wantedState = requestedState);
   }
 
+  // runs every 0.02 seconds
   @Override
   public void periodic() {
 
@@ -137,6 +141,9 @@ public class Fuel extends SubsystemBase {
     applyState();
   }
 
+  // method that returns a boolean
+  // true means we should be in SHOOTING state
+  // false means we should be in SPINNING_UP state
   public boolean isSpunUp() {
 
     boolean shooterVelocityAcceptable =
