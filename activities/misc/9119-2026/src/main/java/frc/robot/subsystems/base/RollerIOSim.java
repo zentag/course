@@ -35,14 +35,15 @@ public class RollerIOSim implements RollerIO {
     simMotor.update(timestamp - lastUpdateTimestamp);
     lastUpdateTimestamp = timestamp;
 
-    inputs.motorRawPositionRotations = simMotor.getAngularPositionRotations();
-    inputs.motorVelocityRPS = simMotor.getAngularVelocityRPM() / 60.0;
+    // DCMotorSim already applies the gearing, so its position/velocity are on the mechanism side
+    inputs.mechanismRawPositionInMechanismUnits = simMotor.getAngularPositionRotations();
+    inputs.mechanismVelocityPerSecondInMechanismUnits = simMotor.getAngularVelocityRPM() / 60.0;
     inputs.motorVoltage = simMotor.getInputVoltage();
     inputs.motorSupplyCurrentAmps = simMotor.getCurrentDrawAmps();
-    inputs.mechanismRawPositionInMechanismUnits =
-        inputs.motorRawPositionRotations / rotorToMechanismRatio;
-    inputs.mechanismVelocityPerSecondInMechanismUnits =
-        inputs.motorVelocityRPS / rotorToMechanismRatio;
+    inputs.motorRawPositionRotations =
+        inputs.mechanismRawPositionInMechanismUnits * rotorToMechanismRatio;
+    inputs.motorVelocityRPS =
+        inputs.mechanismVelocityPerSecondInMechanismUnits * rotorToMechanismRatio;
   }
 
   @Override
@@ -52,6 +53,6 @@ public class RollerIOSim implements RollerIO {
 
   @Override
   public void setMotionMagicVelocity(double mechanismVelocity) {
-    simMotor.setAngularVelocity((mechanismVelocity * rotorToMechanismRatio) * 2 * Math.PI);
+    simMotor.setAngularVelocity(mechanismVelocity * 2 * Math.PI);
   }
 }
